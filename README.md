@@ -31,4 +31,32 @@
         The cat is sleeping
     6.  And this process repeats.
 
+### TOKENIZATION:
+    Program cannot feed the entire sentense directly into a neural network, so each  words, spaces and special characters are converted to token and given an ID called token ID. This entire process is called Tokenization.
+ 
+## TOKEN:
+    * Basic unit of text that a particular tokenizer has decided to use.
+
+    * A sentense is N tokens according to a particular token. Kind of like seeds in random.
+
+    * Token can be:
+        1. word tokenization : ["The", " cat", " is", " sleeping", "."]
+        2. subword-style tokenization : ["un", "believ", "able"] this is just a case ["un", "believable"]
+        3. character tokenization: ["H", "e", "l", "l", "o", " !"]
+    
+    * making every word a token will result in enormous vocabulary.
+    * So best practice : ["play"] + "s"/"ed"/"ing"/"full"/"er" etc. LLM work in subword-style tokenization.
+    * Fewer token means less computation for same test so no character by character tokeization.
+    * Tokens should be small enough to represent unfamiliar text, but large enough to 
+    effeciently represent common pieces of language.
+    * Note spaces are important when it comes to tokenization. Space are part of the structure of text.
+    * Punctuations can also be token.
+    * Common words are efficient tokens.
+
+## BPE - Byte Pair Encoding:
+    Algorithm that automatically breaks up input text into tokens. This algorithm uses simple statistics of letter sequences to induce a vocabulary of subword tokens.
+
+    Example say [low, low, lower, lowest] is in test data. Now if we use character tokenization we see l o w always occour together in the four case so the token will be: lower : ["low", "er"] and lowest : ["low", "est"].
+    
+
  

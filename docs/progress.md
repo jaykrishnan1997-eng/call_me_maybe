@@ -12,3 +12,11 @@
 
     5. mit: 15.773 (S24): Lecture 09: Large Language Models I;
      15.773 (S24): Lecture 10: Large Language Models II;
+
+### DAY 2 [Sept 19]
+
+    trying to understand and learn the keywords from res3 and claude to help explain them.
+
+    https://youtube.com/playlist?list=PLTKMiZHVd_2IIEsoJrWACkIxLRdfMlw11&si=KBhbMQ_j46lVECbz
+
+    Build a Large Language Model (From Scratch) :Sebastian Raschka
