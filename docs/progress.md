@@ -24,3 +24,7 @@
 ### DAY 3 [Sept 21]
     * Makefile and toml file completed (used my prev files and modified)
     * trying small script
+
+    * https://pages.ucsd.edu/~bakovic/compphon/Jurafsky,%20Martin.-Speech%20and%20Language%20Processing_%20An%20Introduction%20to%20Natural%20Language%20Processing%20(2007).pdf
+
+    
