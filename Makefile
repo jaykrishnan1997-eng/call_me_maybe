@@ -52,6 +52,10 @@ fclean: clean
 	rm -rf $(VENV)
 	@if [ -n "$(UV_PROJECT_ENVIRONMENT)" ]; then rm -rf "$(UV_PROJECT_ENVIRONMENT)"; fi
 
+purge: fclean
+	@if [ -n "$(UV_CACHE_DIR)" ]; then rm -rf "$(UV_CACHE_DIR)"; fi
+	@if [ -n "$(HF_HOME)" ]; then rm -rf "$(HF_HOME)"; fi
+
 lint: install
 	$(UV) run flake8 . --exclude=.venv,venv,llm_sdk
 	$(UV) run mypy . \
