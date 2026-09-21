@@ -1,0 +1,29 @@
+[project]
+name = "call-me-maybe"
+version = "0.1.0"
+description = "42 function calling project via constrained decoding"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "pydantic>=2.11.0",
+    "llm-sdk",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv.workspace]
+members = [
+    "llm_sdk",
+]
+
+[tool.uv.sources]
+llm-sdk = {workspace = true, editable = true}
+
+[dependency-groups]
+dev = [
+    "mypy",
+    "flake8",
+    "pytest",
+]

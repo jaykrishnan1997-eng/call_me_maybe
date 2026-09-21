@@ -20,3 +20,7 @@
     https://youtube.com/playlist?list=PLTKMiZHVd_2IIEsoJrWACkIxLRdfMlw11&si=KBhbMQ_j46lVECbz
 
     Build a Large Language Model (From Scratch) :Sebastian Raschka
+
+### DAY 3 [Sept 21]
+    * Makefile and toml file completed (used my prev files and modified)
+    * trying small script

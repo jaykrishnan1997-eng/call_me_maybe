@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+# ########################################################################### #
+#   shebang: 1                                                                #
+#                                                          :::      ::::::::  #
+#   __main__.py                                          :+:      :+:    :+:  #
+#                                                      +:+ +:+         +:+    #
+#   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
+#                                                  +#+#+#+#+#+   +#+          #
+#   Created: 2026/09/21 10:51:39 by jkrishna            #+#    #+#            #
+#   Updated: 2026/09/21 10:57:50 by jkrishna           ###   ########.fr      #
+#                                                                             #
+# ########################################################################### #
+
+from llm_sdk import Small_LLM_Model
+import json
+
+model = Small_LLM_Model()
+ids = model.encode("Hello")[0].tolist()
+print(ids)
+
+logits = model.get_logits_from_input_ids(ids)
+print(len(logits), max(logits))
+
+vocab_path = model.get_path_to_vocab_file()
+with open(vocab_path) as f:
+    vocab = json.load(f)
+print(len(vocab), list(vocab.items())[:5])
