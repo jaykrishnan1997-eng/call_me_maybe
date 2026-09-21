@@ -28,7 +28,7 @@ install:
 	@if [ -n "$(HF_HOME)" ]; then mkdir -p "$(HF_HOME)"; fi
 	$(UV) sync
 	@echo "Virtual environment ready: $(VENV)"
-	@echo "Run: source $(VENV)/bin/activate";
+	@echo "Run: source /goinfre/$USER/call-me-maybe-venv/bin/activate";
 
 run: install
 	$(UV) run $(PYTHON) -m src \
