@@ -2,6 +2,13 @@ UV := $(shell command -v uv 2>/dev/null || echo "$(HOME)/.local/bin/uv")
 VENV := .venv
 PYTHON := python
 
+# Use goinfree for caches/venv if it exists, else fall back to defaults
+ifneq ($(wildcard /goinfre/.),)
+export UV_CACHE_DIR := /goinfre/$(USER)/uv-cache
+export HF_HOME := /goinfre/$(USER)/hf-cache
+export UV_PROJECT_ENVIRONMENT := /goinfre/$(USER)/call-me-maybe-venv
+endif
+
 FUNCTIONS_DEFINITIONS ?= data/input/function_definition.json
 INPUT ?= data/input/function_calling_tests.json
 OUTPUT ?= data/output/function_calling_result.json
@@ -17,6 +24,8 @@ install:
 		echo "Error: uv installation failed."; \
 		exit 1; \
 	fi
+	@if [ -n "$(UV_CACHE_DIR)" ]; then mkdir -p "$(UV_CACHE_DIR)"; fi
+	@if [ -n "$(HF_HOME)" ]; then mkdir -p "$(HF_HOME)"; fi
 	$(UV) sync
 	@echo "Virtual environment ready: $(VENV)"
 	@echo "Run: source $(VENV)/bin/activate";
@@ -41,6 +50,7 @@ clean:
 
 fclean: clean
 	rm -rf $(VENV)
+	@if [ -n "$(UV_PROJECT_ENVIRONMENT)" ]; then rm -rf "$(UV_PROJECT_ENVIRONMENT)"; fi
 
 lint: install
 	$(UV) run flake8 . --exclude=.venv,venv,llm_sdk
@@ -53,4 +63,4 @@ lint: install
 
 lint-strict: install
 	$(UV) run flake8 . --exclude=.venv,venv,llm_sdk
-	$(UV) run mypy . --strict --exclude=llm_sdk
+	$(UV) run mypy . --strict
