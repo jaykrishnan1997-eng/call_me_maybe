@@ -1,13 +1,21 @@
 UV := $(shell command -v uv 2>/dev/null || echo "$(HOME)/.local/bin/uv")
-VENV := .venv
 PYTHON := python
 
-# Use goinfree for caches/venv if it exists, else fall back to defaults
+# Cross - platform defaults (used on machine with and without goinfre)
+VENV := .venv
+UV_CACHE_DIR := $(shell uv cache dir 2>/dev/null || echo "$(HOME)/.cache/uv")
+HF_HOME := $(HOME)/.cache/huggingface
+
+# Override with goinfre paths on 42 campus machines
 ifneq ($(wildcard /goinfre/.),)
-export UV_CACHE_DIR := /goinfre/$(USER)/uv-cache
-export HF_HOME := /goinfre/$(USER)/hf-cache
-export UV_PROJECT_ENVIRONMENT := /goinfre/$(USER)/call-me-maybe-venv
+VENV := /goinfre/$(USER)/call-me-maybe-venv
+UV_CACHE_DIR := /goinfre/$(USER)/uv-cache
+HF_HOME := /goinfre/$(USER)/hf-cache
 endif
+
+export UV_CACHE_DIR
+export HF_HOME
+export UV_PROJECT_ENVIRONMENT := $(VENV)
 
 FUNCTIONS_DEFINITIONS ?= data/input/function_definition.json
 INPUT ?= data/input/function_calling_tests.json
@@ -24,11 +32,10 @@ install:
 		echo "Error: uv installation failed."; \
 		exit 1; \
 	fi
-	@if [ -n "$(UV_CACHE_DIR)" ]; then mkdir -p "$(UV_CACHE_DIR)"; fi
-	@if [ -n "$(HF_HOME)" ]; then mkdir -p "$(HF_HOME)"; fi
+	mkdir -p "$(UV_CACHE_DIR)" "$(HF_HOME)"
 	$(UV) sync
 	@echo "Virtual environment ready: $(VENV)"
-	@echo "Run: source /goinfre/$USER/call-me-maybe-venv/bin/activate";
+	@echo "Run: source $(VENV)/bin/activate";
 
 run: install
 	$(UV) run $(PYTHON) -m src \
@@ -50,11 +57,10 @@ clean:
 
 fclean: clean
 	rm -rf $(VENV)
-	@if [ -n "$(UV_PROJECT_ENVIRONMENT)" ]; then rm -rf "$(UV_PROJECT_ENVIRONMENT)"; fi
 
 purge: fclean
-	@if [ -n "$(UV_CACHE_DIR)" ]; then rm -rf "$(UV_CACHE_DIR)"; fi
-	@if [ -n "$(HF_HOME)" ]; then rm -rf "$(HF_HOME)"; fi
+	rm -rf "$(UV_CACHE_DIR)"
+	rm -rf "$(HF_HOME)"
 
 lint: install
 	$(UV) run flake8 . --exclude=.venv,venv,llm_sdk
