@@ -27,4 +27,8 @@
 
     * https://pages.ucsd.edu/~bakovic/compphon/Jurafsky,%20Martin.-Speech%20and%20Language%20Processing_%20An%20Introduction%20to%20Natural%20Language%20Processing%20(2007).pdf
 
+### DAY 4 [Sept 22]
+    * https://www.lmsys.org/blog/2024-02-05-compressed-fsm/
+    * building vocab.py: id to str and end of sequence checker implemented.
+
     
