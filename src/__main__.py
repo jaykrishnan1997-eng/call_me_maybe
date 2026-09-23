@@ -7,12 +7,13 @@
 #   By: jay-k <jay-k@student.42.fr>                  +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/21 10:51:39 by jkrishna            #+#    #+#            #
-#   Updated: 2026/09/23 13:05:35 by jay-k              ###   ########.fr      #
+#   Updated: 2026/09/23 13:25:16 by jay-k              ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
 from llm_sdk import Small_LLM_Model
 from .vocab import id_to_str
+from .json_fsm import force_literal
 import json
 
 model = Small_LLM_Model()
@@ -29,3 +30,8 @@ print(len(vocab), list(vocab.items())[:5])
 
 result = id_to_str(vocab)
 print(list(result.items())[:10])
+
+print("======================")
+
+input_ids_so_far = model.encode("some starting text")[0].tolist()
+print(force_literal('{"name":"', model, result, input_ids_so_far))

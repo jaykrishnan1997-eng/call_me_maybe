@@ -7,7 +7,7 @@
 #   By: jay-k <jay-k@student.42.fr>                  +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/22 15:35:14 by jay-k               #+#    #+#            #
-#   Updated: 2026/09/23 13:09:27 by jay-k              ###   ########.fr      #
+#   Updated: 2026/09/23 13:26:13 by jay-k              ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -39,7 +39,7 @@ def force_literal(
         legal_ids = legal_next_tokens(target, generated_so_far, id_to_str)
         logits = model.get_logits_from_input_ids(input_ids_so_far)
         for token_id in legal_ids:
-            if logits[id] >= max_token_logits:
+            if logits[token_id] >= max_token_logits:
                 max_token_id = token_id
                 max_token_logits = logits[token_id]
         generated_so_far += id_to_str[max_token_id]
