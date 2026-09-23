@@ -7,7 +7,7 @@
 #   By: jay-k <jay-k@student.42.fr>                  +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/21 10:51:39 by jkrishna            #+#    #+#            #
-#   Updated: 2026/09/22 21:43:22 by jay-k              ###   ########.fr      #
+#   Updated: 2026/09/23 13:05:35 by jay-k              ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -29,4 +29,3 @@ print(len(vocab), list(vocab.items())[:5])
 
 result = id_to_str(vocab)
 print(list(result.items())[:10])
-
