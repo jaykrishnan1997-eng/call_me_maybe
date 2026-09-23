@@ -17,7 +17,7 @@ export UV_CACHE_DIR
 export HF_HOME
 export UV_PROJECT_ENVIRONMENT := $(VENV)
 
-FUNCTIONS_DEFINITIONS ?= data/input/function_definition.json
+FUNCTIONS_DEFINITIONS ?= data/input/functions_definition.json
 INPUT ?= data/input/function_calling_tests.json
 OUTPUT ?= data/output/function_calling_result.json
 

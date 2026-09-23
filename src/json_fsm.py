@@ -7,7 +7,7 @@
 #   By: jay-k <jay-k@student.42.fr>                  +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/22 15:35:14 by jay-k               #+#    #+#            #
-#   Updated: 2026/09/23 13:26:13 by jay-k              ###   ########.fr      #
+#   Updated: 2026/09/23 20:13:35 by jay-k              ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -37,6 +37,42 @@ def force_literal(
         max_token_id = -1
         max_token_logits = float("-inf")
         legal_ids = legal_next_tokens(target, generated_so_far, id_to_str)
+        logits = model.get_logits_from_input_ids(input_ids_so_far)
+        for token_id in legal_ids:
+            if logits[token_id] >= max_token_logits:
+                max_token_id = token_id
+                max_token_logits = logits[token_id]
+        generated_so_far += id_to_str[max_token_id]
+        input_ids_so_far.append(max_token_id)
+    return generated_so_far
+
+
+def legal_choice_tokens(
+    candidates: list[str], generated_so_far: str, id_to_str: dict[int, str]
+) -> list[int]:
+
+    legal_token_id: list[int] = []
+
+    for token_id, token_string in id_to_str.items():
+        candidate = generated_so_far + token_string
+
+        if any(
+            target.startswith(candidate) for target in candidates
+        ):
+            legal_token_id.append(token_id)
+    return legal_token_id
+
+
+def choose_from(
+    candidates: list[str], model, id_to_str: dict[int, str], input_ids_so_far: list[int]
+) -> str:
+    generated_so_far = ""
+    while True:
+        max_token_id = -1
+        max_token_logits = float("-inf")
+        legal_ids = legal_choice_tokens(candidates, generated_so_far, id_to_str)
+        if (legal_ids == []):
+            break
         logits = model.get_logits_from_input_ids(input_ids_so_far)
         for token_id in legal_ids:
             if logits[token_id] >= max_token_logits:
