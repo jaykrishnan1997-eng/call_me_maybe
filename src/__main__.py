@@ -7,14 +7,16 @@
 #   By: jay-k <jay-k@student.42.fr>                  +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/21 10:51:39 by jkrishna            #+#    #+#            #
-#   Updated: 2026/09/24 21:45:41 by jay-k              ###   ########.fr      #
+#   Updated: 2026/09/25 20:42:51 by jay-k              ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
 from llm_sdk import Small_LLM_Model
 from .vocab import id_to_str
 from .json_fsm import force_literal, legal_choice_tokens, choose_from
-from .schema_constraints import legal_number_tokens, generate_number
+from .schema_constraints import (
+    legal_number_tokens, generate_number, legal_string_tokens,
+    generate_string)
 import json
 
 model = Small_LLM_Model()
@@ -57,21 +59,43 @@ print(choose_from(candidates, model, result, input_ids_so_far))
 # input_ids_so_far = model.encode("add 2 and 3?")[0].tolist()
 # print(choose_from(candidates, model, result, input_ids_so_far))
 
-print("===========================")
+# print("===========================")
 
-ids = legal_number_tokens("1", result)
-print([result[i] for i in ids][:30])
+# ids = legal_number_tokens("1", result)
+# print([result[i] for i in ids][:30])
 
-ids = legal_number_tokens("1.5", result)
-print([result[i] for i in ids][:30])
+# ids = legal_number_tokens("1.5", result)
+# print([result[i] for i in ids][:30])
 
-print("============================")
+# print("============================")
+# input_ids_so_far = model.encode(
+#     "What is the sum of 2 and 3? Functions: fn_add_numbers. Parameter a: "
+# )[0].tolist()
+# print(generate_number(model, result, input_ids_so_far))
+
+# input_ids_so_far = model.encode(
+#     "What is the sum of 2 and 3? Functions: fn_add_numbers. Parameter b: "
+# )[0].tolist()
+# print(generate_number(model, result, input_ids_so_far))
+
+# print("===========================")
+# quote_id = None
+# backlash_id = None
+# for token_id, token_string in result.items():
+#     if token_string == '"':
+#         quote_id = token_id
+#     if token_string == '\\':
+#         backlash_id = token_id
+
+# print(quote_id in legal_string_tokens("hel", result))
+# print(backlash_id in legal_string_tokens("hel", result))
+# print(quote_id in legal_string_tokens("hel\\", result))
+
+print("=======================")
+print("generate_string fun check")
+
 input_ids_so_far = model.encode(
-    "What is the sum of 2 and 3? Functions: fn_add_numbers. Parameter a: "
+    'fn_greet(name:"Bob")\n'
+    'fn_greet(name:"'
 )[0].tolist()
-print(generate_number(model, result, input_ids_so_far))
-
-input_ids_so_far = model.encode(
-    "What is the sum of 2 and 3? Functions: fn_add_numbers. Parameter b: "
-)[0].tolist()
-print(generate_number(model, result, input_ids_so_far))
+print(generate_string(model, result, input_ids_so_far))
