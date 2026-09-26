@@ -7,7 +7,7 @@
 #   By: jay-k <jay-k@student.42.fr>                  +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/21 10:51:39 by jkrishna            #+#    #+#            #
-#   Updated: 2026/09/25 20:42:51 by jay-k              ###   ########.fr      #
+#   Updated: 2026/09/26 19:46:20 by jay-k              ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -17,6 +17,7 @@ from .json_fsm import force_literal, legal_choice_tokens, choose_from
 from .schema_constraints import (
     legal_number_tokens, generate_number, legal_string_tokens,
     generate_string)
+from .io_utils import load_function_definitions, load_prompts
 import json
 
 model = Small_LLM_Model()
@@ -99,3 +100,17 @@ input_ids_so_far = model.encode(
     'fn_greet(name:"'
 )[0].tolist()
 print(generate_string(model, result, input_ids_so_far))
+
+print("=======================")
+print("real file loading check")
+
+functions = load_function_definitions("data/input/fuunctions_definitions.json")
+prompts = load_prompts("data/input/fuunction_calling_tests.json")
+
+print(f"loaded {len(functions)} functions")
+for f in functions:
+    print(" -", f.name)
+
+print(f"loaded {len(prompts)} prompts")
+for p in prompts:
+    print(" -", p)
