@@ -7,12 +7,13 @@
 #   By: jay-k <jay-k@student.42.fr>                  +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/26 12:55:28 by jay-k               #+#    #+#            #
-#   Updated: 2026/09/26 19:33:49 by jay-k              ###   ########.fr      #
+#   Updated: 2026/09/26 19:51:22 by jay-k              ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
 import json
-from .models import Parameter, FunctionDefinition, ValidationError
+from .models import Parameter, FunctionDefinition
+from pydantic import ValidationError
 
 
 def load_function_definitions(path: str) -> list[FunctionDefinition]:

@@ -7,7 +7,7 @@
 #   By: jay-k <jay-k@student.42.fr>                  +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/21 10:51:39 by jkrishna            #+#    #+#            #
-#   Updated: 2026/09/26 19:46:20 by jay-k              ###   ########.fr      #
+#   Updated: 2026/09/26 19:56:07 by jay-k              ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -35,27 +35,27 @@ print(len(vocab), list(vocab.items())[:5])
 result = id_to_str(vocab)
 print(list(result.items())[:10])
 
-print("======================")
+# print("======================")
 
-input_ids_so_far = model.encode("some starting text")[0].tolist()
-print(force_literal('{"name":"', model, result, input_ids_so_far))
+# input_ids_so_far = model.encode("some starting text")[0].tolist()
+# print(force_literal('{"name":"', model, result, input_ids_so_far))
 
-print("==========================")
+# print("==========================")
 
-candidates = ["cat", "car", "cap"]
+# candidates = ["cat", "car", "cap"]
 
-for token_id in legal_choice_tokens(
-    candidates, "ca", result
-):
-    print(token_id, result[token_id])
+# for token_id in legal_choice_tokens(
+#     candidates, "ca", result
+# ):
+#     print(token_id, result[token_id])
 
-print("=========================")
+# print("=========================")
 
-candidates = [
-    "fn_add_numbers", "fn_greet", "fn_reverse_string", "fn_get_square_root",
-    "fn_substitute_string_with_regex"]
-input_ids_so_far = model.encode("What is the sum of 2 and 3? Function to call: ")[0].tolist()
-print(choose_from(candidates, model, result, input_ids_so_far))
+# candidates = [
+#     "fn_add_numbers", "fn_greet", "fn_reverse_string", "fn_get_square_root",
+#     "fn_substitute_string_with_regex"]
+# input_ids_so_far = model.encode("What is the sum of 2 and 3? Function to call: ")[0].tolist()
+# print(choose_from(candidates, model, result, input_ids_so_far))
 
 # input_ids_so_far = model.encode("add 2 and 3?")[0].tolist()
 # print(choose_from(candidates, model, result, input_ids_so_far))
@@ -92,20 +92,20 @@ print(choose_from(candidates, model, result, input_ids_so_far))
 # print(backlash_id in legal_string_tokens("hel", result))
 # print(quote_id in legal_string_tokens("hel\\", result))
 
-print("=======================")
-print("generate_string fun check")
+# print("=======================")
+# print("generate_string fun check")
 
-input_ids_so_far = model.encode(
-    'fn_greet(name:"Bob")\n'
-    'fn_greet(name:"'
-)[0].tolist()
-print(generate_string(model, result, input_ids_so_far))
+# input_ids_so_far = model.encode(
+#     'fn_greet(name:"Bob")\n'
+#     'fn_greet(name:"'
+# )[0].tolist()
+# print(generate_string(model, result, input_ids_so_far))
 
 print("=======================")
 print("real file loading check")
 
-functions = load_function_definitions("data/input/fuunctions_definitions.json")
-prompts = load_prompts("data/input/fuunction_calling_tests.json")
+functions = load_function_definitions("data/input/functions_definition.json")
+prompts = load_prompts("data/input/function_calling_tests.json")
 
 print(f"loaded {len(functions)} functions")
 for f in functions:
