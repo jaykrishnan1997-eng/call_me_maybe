@@ -7,7 +7,7 @@
 #   By: jay-k <jay-k@student.42.fr>                  +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/24 17:01:58 by jay-k               #+#    #+#            #
-#   Updated: 2026/09/28 20:13:30 by jay-k              ###   ########.fr      #
+#   Updated: 2026/09/28 20:48:07 by jay-k              ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -15,7 +15,9 @@ import json
 from llm_sdk import Small_LLM_Model
 
 
-def legal_number_tokens(generated_so_far: str, id_to_str: dict[int, str]) -> list[int]:
+def legal_number_tokens(
+    generated_so_far: str, id_to_str: dict[int, str]
+) -> list[int]:
     """ legal checker for JSON number values"""
 
     legal_token_id: list[int] = []
@@ -105,7 +107,9 @@ def legal_string_tokens(generated_so_far, id_to_str):
                 if i + 1 == len(candidate):
                     i += 1
                     continue
-                if candidate[i + 1] not in ('"', '\\', '/', 'n', 't', 'r', 'b', 'f'):
+                if candidate[i + 1] not in (
+                    '"', '\\', '/', 'n', 't', 'r', 'b', 'f'
+                ):
                     found_illegal = True
                     break
                 i += 2

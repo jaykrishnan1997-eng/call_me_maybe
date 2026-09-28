@@ -4,10 +4,10 @@
 #                                                          :::      ::::::::  #
 #   json_fsm.py                                          :+:      :+:    :+:  #
 #                                                      +:+ +:+         +:+    #
-#   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
+#   By: jay-k <jay-k@student.42.fr>                  +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/22 15:35:14 by jay-k               #+#    #+#            #
-#   Updated: 2026/09/28 13:07:10 by jkrishna           ###   ########.fr      #
+#   Updated: 2026/09/28 20:47:17 by jay-k              ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -64,13 +64,15 @@ def legal_choice_tokens(
 
 
 def choose_from(
-    candidates: list[str], model, id_to_str: dict[int, str], input_ids_so_far: list[int]
+    candidates: list[str], model, id_to_str: dict[int, str],
+    input_ids_so_far: list[int]
 ) -> str:
     generated_so_far = ""
     while True:
         max_token_id = -1
         max_token_logits = float("-inf")
-        legal_ids = legal_choice_tokens(candidates, generated_so_far, id_to_str)
+        legal_ids = legal_choice_tokens(
+            candidates, generated_so_far, id_to_str)
         if (legal_ids == []):
             break
         logits = model.get_logits_from_input_ids(input_ids_so_far)
