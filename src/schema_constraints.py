@@ -7,7 +7,7 @@
 #   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/24 17:01:58 by jay-k               #+#    #+#            #
-#   Updated: 2026/09/28 13:55:35 by jkrishna           ###   ########.fr      #
+#   Updated: 2026/09/28 14:17:37 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -146,8 +146,8 @@ def generate_string(
         generated_ids.append(best_id)
         input_ids_so_far.append(best_id)
 
-        text = model.decode(generated_ids)
-        try:
-            return str(json.loads('"' + text + '"', strict=False))
-        except json.JSONDecodeError:
-            return text
+    text = model.decode(generated_ids)
+    try:
+        return str(json.loads('"' + text + '"', strict=False))
+    except json.JSONDecodeError:
+        return text
