@@ -4,10 +4,10 @@
 #                                                          :::      ::::::::  #
 #   __main__.py                                          :+:      :+:    :+:  #
 #                                                      +:+ +:+         +:+    #
-#   By: jay-k <jay-k@student.42.fr>                  +#+  +:+       +#+       #
+#   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/21 10:51:39 by jkrishna            #+#    #+#            #
-#   Updated: 2026/09/26 19:56:07 by jay-k              ###   ########.fr      #
+#   Updated: 2026/09/28 13:56:48 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -18,6 +18,7 @@ from .schema_constraints import (
     legal_number_tokens, generate_number, legal_string_tokens,
     generate_string)
 from .io_utils import load_function_definitions, load_prompts
+from .generator import process_prompt, build_context
 import json
 
 model = Small_LLM_Model()
@@ -32,8 +33,8 @@ with open(vocab_path) as f:
     vocab = json.load(f)
 print(len(vocab), list(vocab.items())[:5])
 
-result = id_to_str(vocab)
-print(list(result.items())[:10])
+id_to_str_map = id_to_str(vocab)
+print(list(id_to_str_map.items())[:10])
 
 # print("======================")
 
@@ -101,16 +102,40 @@ print(list(result.items())[:10])
 # )[0].tolist()
 # print(generate_string(model, result, input_ids_so_far))
 
+# print("=======================")
+# print("real file loading check")
+
+# functions = load_function_definitions("data/input/functions_definition.json")
+# prompts = load_prompts("data/input/function_calling_tests.json")
+
+# print(f"loaded {len(functions)} functions")
+# for f in functions:
+#     print(" -", f.name)
+
+# print(f"loaded {len(prompts)} prompts")
+# for p in prompts:
+#     print(" -", p)
+
 print("=======================")
-print("real file loading check")
+print("generator process prompt check")
 
 functions = load_function_definitions("data/input/functions_definition.json")
 prompts = load_prompts("data/input/function_calling_tests.json")
 
-print(f"loaded {len(functions)} functions")
-for f in functions:
-    print(" -", f.name)
+for prompt in prompts:
+    generated = process_prompt(prompt, model, id_to_str_map, functions)
+    print(generated)
+    print("\n")
 
-print(f"loaded {len(prompts)} prompts")
-for p in prompts:
-    print(" -", p)
+# print("=======================")
+# print("generator process prompt check")
+
+# functions = load_function_definitions("data/input/functions_definition.json")
+# ids = model.encode(build_context("Greet shrek", functions))[0].tolist()
+# force_literal(
+#     '{"name":"fn_greet","parameters":{"name":"shrek',
+#     model, id_to_str_map, ids)
+# logits = model.get_logits_from_input_ids(ids)
+# top = sorted(range(len(logits)), key=lambda i: logits[i], reverse=True)[:5]
+# for i in top:
+#     print(i, repr(id_to_str_map[i]), logits[i])

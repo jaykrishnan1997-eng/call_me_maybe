@@ -4,12 +4,16 @@
 #                                                          :::      ::::::::  #
 #   schema_constraints.py                                :+:      :+:    :+:  #
 #                                                      +:+ +:+         +:+    #
-#   By: jay-k <jay-k@student.42.fr>                  +#+  +:+       +#+       #
+#   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/24 17:01:58 by jay-k               #+#    #+#            #
-#   Updated: 2026/09/25 20:47:09 by jay-k              ###   ########.fr      #
+#   Updated: 2026/09/28 13:55:35 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
+
+import json
+from llm_sdk import Small_LLM_Model
+
 
 def legal_number_tokens(generated_so_far: str, id_to_str: dict[int, str]) -> list[int]:
     """ legal checker for JSON number values"""
@@ -116,31 +120,34 @@ def legal_string_tokens(generated_so_far, id_to_str):
 
 
 def generate_string(
-    model, id_to_str: dict[int, str], input_ids_so_far: list[int]
+    model: Small_LLM_Model, id_to_str: dict[int, str],
+    input_ids_so_far: list[int]
 ) -> str:
-    rounds = 0
+    """Generate the body of a JSON string value (without the quotes)."""
+    closing_ids = [i for i, s in id_to_str.items() if s.startswith('"')]
     generated_so_far = ""
-    quote_id = -1
-    for token_id, token_string in id_to_str.items():
-        if token_string == '"':
-            quote_id = token_id
-    while True:
-        rounds += 1
-        max_token_id = -1
-        max_token_logits = float("-inf")
-        legal_ids = legal_string_tokens(generated_so_far, id_to_str)
+    generated_ids: list[int] = []
+
+    for _ in range(40):
         logits = model.get_logits_from_input_ids(input_ids_so_far)
-        for token_id in legal_ids:
-            if logits[token_id] >= max_token_logits:
-                max_token_id = token_id
-                max_token_logits = logits[token_id]
-        if (
-            (max_token_id == quote_id
-            and len(generated_so_far) > 0)
-            or rounds > 40
-        ):
+        legal_ids = legal_string_tokens(generated_so_far, id_to_str)
+        if not legal_ids:
             break
-        generated_so_far += id_to_str[max_token_id]
-        input_ids_so_far.append(max_token_id)
-        print(repr(generated_so_far))
-    return generated_so_far
+        best_id = max(legal_ids, key=lambda i: logits[i])
+
+        can_close = generated_so_far != "" and count_trailing_backslashes(
+            generated_so_far, len(generated_so_far))
+        if can_close:
+            best_close = max(closing_ids, key=lambda i: logits[i])
+            if logits[best_close] > logits[best_id]:
+                break
+
+        generated_so_far += id_to_str[best_id]
+        generated_ids.append(best_id)
+        input_ids_so_far.append(best_id)
+
+        text = model.decode(generated_ids)
+        try:
+            return str(json.loads('"' + text + '"', strict=False))
+        except json.JSONDecodeError:
+            return text

@@ -4,15 +4,15 @@
 #                                                          :::      ::::::::  #
 #   io_utils.py                                          :+:      :+:    :+:  #
 #                                                      +:+ +:+         +:+    #
-#   By: jay-k <jay-k@student.42.fr>                  +#+  +:+       +#+       #
+#   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/26 12:55:28 by jay-k               #+#    #+#            #
-#   Updated: 2026/09/26 19:51:22 by jay-k              ###   ########.fr      #
+#   Updated: 2026/09/28 09:38:26 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
 import json
-from .models import Parameter, FunctionDefinition
+from .models import FunctionDefinition
 from pydantic import ValidationError
 
 
