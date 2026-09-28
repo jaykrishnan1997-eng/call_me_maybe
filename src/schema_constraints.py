@@ -4,10 +4,10 @@
 #                                                          :::      ::::::::  #
 #   schema_constraints.py                                :+:      :+:    :+:  #
 #                                                      +:+ +:+         +:+    #
-#   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
+#   By: jay-k <jay-k@student.42.fr>                  +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/24 17:01:58 by jay-k               #+#    #+#            #
-#   Updated: 2026/09/28 14:17:37 by jkrishna           ###   ########.fr      #
+#   Updated: 2026/09/28 20:13:30 by jay-k              ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -100,20 +100,23 @@ def legal_string_tokens(generated_so_far, id_to_str):
         found_illegal = False
         candidate = generated_so_far + token_string
         i = 0
-        for i in range(0, len(candidate)):
-            if (
-                candidate[i] == '\\'
-                and i + 1 != len(candidate)
-                and candidate[i + 1] not in ('"','\\','/','n','t','r','b','f')
-            ):
-                found_illegal = True
-                break
+        while i < len(candidate):
+            if candidate[i] == '\\':
+                if i + 1 == len(candidate):
+                    i += 1
+                    continue
+                if candidate[i + 1] not in ('"', '\\', '/', 'n', 't', 'r', 'b', 'f'):
+                    found_illegal = True
+                    break
+                i += 2
+                continue
             if (
                 candidate[i] == '"'
                 and count_trailing_backslashes(candidate, i)
             ):
                 found_illegal = True
                 break
+            i += 1
         if not found_illegal:
             legal_token_id.append(token_id)
     return legal_token_id
