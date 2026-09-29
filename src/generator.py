@@ -7,13 +7,14 @@
 #   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/28 09:33:17 by jkrishna            #+#    #+#            #
-#   Updated: 2026/09/28 13:18:38 by jkrishna           ###   ########.fr      #
+#   Updated: 2026/09/29 10:57:17 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
 from .json_fsm import force_literal, choose_from
 from .schema_constraints import generate_number, generate_string
-from .io_utils import FunctionDefinition
+from .models import FunctionDefinition
+from llm_sdk import Small_LLM_Model
 
 
 def build_context(prompt: str, functions: list[FunctionDefinition]) -> str:
@@ -28,7 +29,11 @@ def build_context(prompt: str, functions: list[FunctionDefinition]) -> str:
     return "\n".join(lines) + "\n"
 
 
-def process_prompt(prompt, model, id_to_str, functions) -> dict:
+def process_prompt(
+    prompt: str, model: Small_LLM_Model,
+    id_to_str: dict[int, str],
+    functions: list[FunctionDefinition],
+) -> dict[str, object]:
     parameters: dict[str, str | float] = {}
     input_ids_so_far = model.encode(
         build_context(prompt, functions))[0].tolist()

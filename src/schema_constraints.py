@@ -4,10 +4,10 @@
 #                                                          :::      ::::::::  #
 #   schema_constraints.py                                :+:      :+:    :+:  #
 #                                                      +:+ +:+         +:+    #
-#   By: jay-k <jay-k@student.42.fr>                  +#+  +:+       +#+       #
+#   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/24 17:01:58 by jay-k               #+#    #+#            #
-#   Updated: 2026/09/28 20:48:07 by jay-k              ###   ########.fr      #
+#   Updated: 2026/09/29 11:08:45 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -52,7 +52,8 @@ def legal_number_tokens(
 
 
 def generate_number(
-    model, id_to_str: dict[int, str], input_ids_so_far: list[int]
+    model: Small_LLM_Model, id_to_str: dict[int, str],
+    input_ids_so_far: list[int]
 ) -> str:
     generated_so_far = ""
     comma_id = -1
@@ -94,7 +95,9 @@ def count_trailing_backslashes(candidate: str, j: int) -> bool:
         return False
 
 
-def legal_string_tokens(generated_so_far, id_to_str):
+def legal_string_tokens(
+    generated_so_far: str, id_to_str: dict[int, str]
+) -> list[int]:
     """Which tokens keep the next a legal, still-open JSON string body?"""
     i: int
     legal_token_id: list[int] = []

@@ -4,12 +4,14 @@
 #                                                          :::      ::::::::  #
 #   json_fsm.py                                          :+:      :+:    :+:  #
 #                                                      +:+ +:+         +:+    #
-#   By: jay-k <jay-k@student.42.fr>                  +#+  +:+       +#+       #
+#   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/22 15:35:14 by jay-k               #+#    #+#            #
-#   Updated: 2026/09/28 20:47:17 by jay-k              ###   ########.fr      #
+#   Updated: 2026/09/29 11:02:20 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
+
+from llm_sdk import Small_LLM_Model
 
 
 def legal_next_tokens(
@@ -29,7 +31,8 @@ def legal_next_tokens(
 
 
 def force_literal(
-    target: str, model, id_to_str: dict[int, str], input_ids_so_far: list[int]
+    target: str, model: Small_LLM_Model,
+    id_to_str: dict[int, str], input_ids_so_far: list[int]
 ) -> str:
 
     generated_so_far = ""
@@ -64,7 +67,7 @@ def legal_choice_tokens(
 
 
 def choose_from(
-    candidates: list[str], model, id_to_str: dict[int, str],
+    candidates: list[str], model: Small_LLM_Model, id_to_str: dict[int, str],
     input_ids_so_far: list[int]
 ) -> str:
     generated_so_far = ""

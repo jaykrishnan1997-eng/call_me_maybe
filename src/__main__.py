@@ -4,21 +4,22 @@
 #                                                          :::      ::::::::  #
 #   __main__.py                                          :+:      :+:    :+:  #
 #                                                      +:+ +:+         +:+    #
-#   By: jay-k <jay-k@student.42.fr>                  +#+  +:+       +#+       #
+#   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/21 10:51:39 by jkrishna            #+#    #+#            #
-#   Updated: 2026/09/28 20:48:36 by jay-k              ###   ########.fr      #
+#   Updated: 2026/09/29 11:00:30 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
 from llm_sdk import Small_LLM_Model
 from .vocab import id_to_str
-from .json_fsm import force_literal, legal_choice_tokens, choose_from
-from .schema_constraints import (
-    legal_number_tokens, generate_number, legal_string_tokens,
-    generate_string)
+# from .json_fsm import force_literal, legal_choice_tokens, choose_from
+# from .schema_constraints import (
+#     legal_number_tokens, generate_number, legal_string_tokens,
+#     generate_string)
 from .io_utils import load_function_definitions, load_prompts
-from .generator import process_prompt, build_context
+from .generator import process_prompt
+# from .generator import build_context
 import json
 
 model = Small_LLM_Model()
