@@ -31,4 +31,8 @@
     * https://www.lmsys.org/blog/2024-02-05-compressed-fsm/
     * building vocab.py: id to str and end of sequence checker implemented.
 
-    
+    https://docs.python.org/3/library/argparse.html
+    for argparser
+
+    https://jsonlint.com/
+    to test if json is valid

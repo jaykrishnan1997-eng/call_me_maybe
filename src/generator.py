@@ -7,7 +7,7 @@
 #   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/28 09:33:17 by jkrishna            #+#    #+#            #
-#   Updated: 2026/09/29 11:17:27 by jkrishna           ###   ########.fr      #
+#   Updated: 2026/09/29 12:29:22 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -75,4 +75,4 @@ def process_prompt(
 
         force_literal(after, model, id_to_str, input_ids_so_far)
 
-    return {"prompt": prompt, "name": function.name, "parameters": parameters}
+    return {"prompt": prompt, "name": function.name, "parameter": parameters}

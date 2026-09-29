@@ -39,7 +39,7 @@ install:
 
 run: install
 	$(UV) run $(PYTHON) -m src \
-		--function_definition $(FUNCTIONS_DEFINITIONS) \
+		--functions_definition $(FUNCTIONS_DEFINITIONS) \
 		--input $(INPUT) \
 		--output $(OUTPUT)
 		
