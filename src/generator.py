@@ -7,7 +7,7 @@
 #   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/28 09:33:17 by jkrishna            #+#    #+#            #
-#   Updated: 2026/09/29 10:57:17 by jkrishna           ###   ########.fr      #
+#   Updated: 2026/09/29 11:17:27 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -34,6 +34,8 @@ def process_prompt(
     id_to_str: dict[int, str],
     functions: list[FunctionDefinition],
 ) -> dict[str, object]:
+    """Run one prompt through the model and
+    return its function call as a dict"""
     parameters: dict[str, str | float] = {}
     input_ids_so_far = model.encode(
         build_context(prompt, functions))[0].tolist()

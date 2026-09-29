@@ -7,7 +7,7 @@
 #   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/24 17:01:58 by jay-k               #+#    #+#            #
-#   Updated: 2026/09/29 11:08:45 by jkrishna           ###   ########.fr      #
+#   Updated: 2026/09/29 11:28:23 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -55,6 +55,8 @@ def generate_number(
     model: Small_LLM_Model, id_to_str: dict[int, str],
     input_ids_so_far: list[int]
 ) -> str:
+    """Generate the digits of a JSON number
+     value, stopping before a seperator"""
     generated_so_far = ""
     comma_id = -1
     for token_id, token_string in id_to_str.items():
@@ -82,6 +84,8 @@ def generate_number(
 
 
 def count_trailing_backslashes(candidate: str, j: int) -> bool:
+    """Return True if position j is not preceded
+     by an odd (escaping) run of backslashes"""
     count_slash = 0
     while j > 0:
         j -= 1
@@ -89,17 +93,13 @@ def count_trailing_backslashes(candidate: str, j: int) -> bool:
             count_slash += 1
         else:
             break
-    if count_slash % 2 == 0:
-        return True
-    else:
-        return False
+    return count_slash % 2 == 0
 
 
 def legal_string_tokens(
     generated_so_far: str, id_to_str: dict[int, str]
 ) -> list[int]:
     """Which tokens keep the next a legal, still-open JSON string body?"""
-    i: int
     legal_token_id: list[int] = []
     for token_id, token_string in id_to_str.items():
         found_illegal = False
