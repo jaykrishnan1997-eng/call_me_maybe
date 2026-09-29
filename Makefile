@@ -54,6 +54,7 @@ clean:
 	find . -type d -name ".mypy_cache" -exec rm -rf {} +
 	find . -type d -name ".pytest_cache" -exec rm -rf {} +
 	find . -name "*.pyc" -delete
+	rm -rf data/output
 
 fclean: clean
 	rm -rf $(VENV)
