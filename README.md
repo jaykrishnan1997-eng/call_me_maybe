@@ -234,5 +234,8 @@ cat data/output/function_calling_results.json
 - The provided `llm_sdk` package itself, read directly to understand `encode`,
   `get_logits_from_input_ids`, and `get_path_to_vocab_file`, since it is the only interface
   to the Qwen/Qwen3-0.6B model used throughout
-
+- https://huggingface.co/docs/transformers/index
+ 
+ 
+ 
 **Use of AI:** Use of AI: Used to explain concepts (tokenization, logits, constrained decoding) and to point out bugs in hand-written code for me to fix myself, not to supply fixes directly. All core logic — legality checks, generation loops, state machine, CLI/I/O — was written and debugged by hand. AI help was also used to build the Makefile so the project works consistently on both 42 lab machines and a home PC — specifically, where the virtual environment and caches should be stored (redirected to `/goinfre` on campus machines, default locations elsewhere).
