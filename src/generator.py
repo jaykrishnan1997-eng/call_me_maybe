@@ -7,7 +7,7 @@
 #   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/28 09:33:17 by jkrishna            #+#    #+#            #
-#   Updated: 2026/09/30 13:36:49 by jkrishna           ###   ########.fr      #
+#   Updated: 2026/09/30 14:07:40 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -61,6 +61,17 @@ def process_prompt(
                 f'"{param_name}":', model, id_to_str, input_ids_so_far)
             parameters[param_name] = float(
                 generate_number(model, id_to_str, input_ids_so_far))
+            after = "}}" if is_last else ","
+
+        elif param.type == "integer":
+            force_literal(
+                f'"{param_name}":', model, id_to_str, input_ids_so_far)
+            generated_value = generate_number(
+                model, id_to_str, input_ids_so_far)
+            try:
+                parameters[param_name] = int(generated_value)
+            except ValueError:
+                parameters[param_name] = int(float(generated_value))
             after = "}}" if is_last else ","
 
         elif param.type == "string":
