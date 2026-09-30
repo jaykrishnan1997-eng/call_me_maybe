@@ -7,7 +7,7 @@
 #   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/22 15:35:14 by jay-k               #+#    #+#            #
-#   Updated: 2026/09/29 11:02:20 by jkrishna           ###   ########.fr      #
+#   Updated: 2026/09/30 13:41:26 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -17,8 +17,7 @@ from llm_sdk import Small_LLM_Model
 def legal_next_tokens(
     target: str, generated_so_far: str, id_to_str: dict[int, str]
 ) -> list[int]:
-    """ Give me the legal next tokens for this target
-    , generated what i've generated so far"""
+    """Return token IDs that keep generated_so_far a prefix of target."""
 
     legal_token_id: list[int] = []
 
@@ -34,7 +33,8 @@ def force_literal(
     target: str, model: Small_LLM_Model,
     id_to_str: dict[int, str], input_ids_so_far: list[int]
 ) -> str:
-
+    """Force the model to generate exactly target, token by token,
+    choosing among legal tokens by logit at each step."""
     generated_so_far = ""
     while (generated_so_far != target):
         max_token_id = -1
@@ -53,7 +53,8 @@ def force_literal(
 def legal_choice_tokens(
     candidates: list[str], generated_so_far: str, id_to_str: dict[int, str]
 ) -> list[int]:
-
+    """Return token IDs that keep generated_so_far a prefix of
+    atleast one string in candidates."""
     legal_token_id: list[int] = []
 
     for token_id, token_string in id_to_str.items():
@@ -70,6 +71,8 @@ def choose_from(
     candidates: list[str], model: Small_LLM_Model, id_to_str: dict[int, str],
     input_ids_so_far: list[int]
 ) -> str:
+    """Let the model pick one full string from candidates, token by
+    token, stopping once no candidate can legally continue further."""
     generated_so_far = ""
     while True:
         max_token_id = -1

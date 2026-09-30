@@ -7,7 +7,7 @@
 #   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/21 10:51:39 by jkrishna            #+#    #+#            #
-#   Updated: 2026/09/30 08:49:26 by jkrishna           ###   ########.fr      #
+#   Updated: 2026/09/30 13:50:27 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -24,7 +24,8 @@ from .cli import parse_args
 
 
 def main() -> None:
-
+    """Load inputs, run each prompt through the model, and write the
+    resulting function calls to the output JSON file."""
     result = []
     model = Small_LLM_Model()
     args = parse_args()
