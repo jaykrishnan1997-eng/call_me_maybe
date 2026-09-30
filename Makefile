@@ -45,7 +45,7 @@ run: install
 		
 debug: install
 	$(UV) run $(PYTHON) -m pdb -m src \
-		--function_definition $(FUNCTIONS_DEFINITIONS) \
+		--functions_definition $(FUNCTIONS_DEFINITIONS) \
 		--input $(INPUT) \
 		--output $(OUTPUT)
 

@@ -7,7 +7,7 @@
 #   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/21 10:51:39 by jkrishna            #+#    #+#            #
-#   Updated: 2026/09/29 15:06:05 by jkrishna           ###   ########.fr      #
+#   Updated: 2026/09/30 08:49:26 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -53,6 +53,9 @@ def main() -> None:
 if __name__ == "__main__":
     try:
         main()
+    except ValueError as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
     except Exception:
         traceback.print_exc()
         sys.exit(1)
