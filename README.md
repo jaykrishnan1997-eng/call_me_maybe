@@ -235,6 +235,7 @@ cat data/output/function_calling_results.json
   `get_logits_from_input_ids`, and `get_path_to_vocab_file`, since it is the only interface
   to the Qwen/Qwen3-0.6B model used throughout
 - https://huggingface.co/docs/transformers/index
+- https://huggingface.co/Qwen/Qwen3-0.6B/raw/main/vocab.json
  
  
  
