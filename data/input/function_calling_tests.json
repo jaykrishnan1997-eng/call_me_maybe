@@ -15,7 +15,7 @@
     "prompt": "Reverse the string 'hello'"
   },
   {
-    "prompt": "Reverse the string 'world'"
+    "prompt": "Reverse the string 'a\\b\\c'"
   },
   {
     "prompt": "What is the square root of 16?"

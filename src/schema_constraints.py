@@ -7,7 +7,7 @@
 #   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/24 17:01:58 by jay-k               #+#    #+#            #
-#   Updated: 2026/09/29 11:28:23 by jkrishna           ###   ########.fr      #
+#   Updated: 2026/10/02 11:55:20 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -83,48 +83,16 @@ def generate_number(
     return generated_so_far
 
 
-def count_trailing_backslashes(candidate: str, j: int) -> bool:
-    """Return True if position j is not preceded
-     by an odd (escaping) run of backslashes"""
-    count_slash = 0
-    while j > 0:
-        j -= 1
-        if candidate[j] == '\\':
-            count_slash += 1
-        else:
-            break
-    return count_slash % 2 == 0
-
-
 def legal_string_tokens(
     generated_so_far: str, id_to_str: dict[int, str]
 ) -> list[int]:
-    """Which tokens keep the next a legal, still-open JSON string body?"""
+    """Which tokens keep the body free of a literal quote character?
+    Backslashes are treated as ordinary text, not as JSON escapes;
+    real JSON escaping happens once, at output-serialization time."""
     legal_token_id: list[int] = []
     for token_id, token_string in id_to_str.items():
-        found_illegal = False
         candidate = generated_so_far + token_string
-        i = 0
-        while i < len(candidate):
-            if candidate[i] == '\\':
-                if i + 1 == len(candidate):
-                    i += 1
-                    continue
-                if candidate[i + 1] not in (
-                    '"', '\\', '/', 'n', 't', 'r', 'b', 'f'
-                ):
-                    found_illegal = True
-                    break
-                i += 2
-                continue
-            if (
-                candidate[i] == '"'
-                and count_trailing_backslashes(candidate, i)
-            ):
-                found_illegal = True
-                break
-            i += 1
-        if not found_illegal:
+        if '"' not in candidate:
             legal_token_id.append(token_id)
     return legal_token_id
 
@@ -145,8 +113,7 @@ def generate_string(
             break
         best_id = max(legal_ids, key=lambda i: logits[i])
 
-        can_close = generated_so_far != "" and count_trailing_backslashes(
-            generated_so_far, len(generated_so_far))
+        can_close = generated_so_far != ""
         if can_close:
             best_close = max(closing_ids, key=lambda i: logits[i])
             if logits[best_close] > logits[best_id]:
@@ -157,7 +124,5 @@ def generate_string(
         input_ids_so_far.append(best_id)
 
     text = model.decode(generated_ids)
-    try:
-        return str(json.loads('"' + text + '"', strict=False))
-    except json.JSONDecodeError:
-        return text
+    text = text.replace("\\\\", "\\")
+    return text
