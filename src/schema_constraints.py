@@ -7,11 +7,10 @@
 #   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/24 17:01:58 by jay-k               #+#    #+#            #
-#   Updated: 2026/10/02 11:55:20 by jkrishna           ###   ########.fr      #
+#   Updated: 2026/10/02 12:19:29 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
-import json
 from llm_sdk import Small_LLM_Model
 
 
@@ -87,12 +86,13 @@ def legal_string_tokens(
     generated_so_far: str, id_to_str: dict[int, str]
 ) -> list[int]:
     """Which tokens keep the body free of a literal quote character?
-    Backslashes are treated as ordinary text, not as JSON escapes;
-    real JSON escaping happens once, at output-serialization time."""
+    Backslashes are ordinary text, except right before a quote, where
+    \\" is allowed as a way to embed a literal quote in the value"""
     legal_token_id: list[int] = []
     for token_id, token_string in id_to_str.items():
         candidate = generated_so_far + token_string
-        if '"' not in candidate:
+        temp = candidate.replace('\\"', "")  # drops escape quotes
+        if '"' not in temp:
             legal_token_id.append(token_id)
     return legal_token_id
 
@@ -124,5 +124,6 @@ def generate_string(
         input_ids_so_far.append(best_id)
 
     text = model.decode(generated_ids)
+    text = text.replace('\\"', '"')
     text = text.replace("\\\\", "\\")
     return text
