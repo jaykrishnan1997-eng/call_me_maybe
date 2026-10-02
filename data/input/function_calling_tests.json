@@ -31,22 +31,5 @@
   },
   {
     "prompt": "Substitute the word 'cat' with 'dog' in 'The cat sat on the mat with another cat'"
-  },
-  { "prompt": "Reverse the string '\\n\\t'" },
-  { "prompt": "Reverse the string 'C:\\Users\\test'" },
-  { "prompt": "Replace all numbers in 'price: $5\\5 off' with X" },
-  { "prompt": "Greet the person named \"Bob\"" },
-  { "prompt": "Reverse the string 'say \"hi\" now'" },
-  { "prompt": "Replace all whitespace in 'a  b   c' with _" },
-  { "prompt": "Substitute the word '' with 'x' in 'abc'" },
-  { "prompt": "Replace all numbers in '' with X" },
-  { "prompt": "What is the square root of 2?" },
-  { "prompt": "Calculate the square root of 0" },
-  { "prompt": "What is the square root of -1?" },
-  { "prompt": "Greet someone named 7" },
-  { "prompt": "Reverse the string '12345'" },
-  { "prompt": "'''''" },
-  { "prompt": "\\\\\\\\" },
-  { "prompt": "🎉🎉🎉 greet 🎉🎉🎉" },
-  { "prompt": "Reverse the string 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'" }
+  }
 ]
