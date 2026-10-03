@@ -7,7 +7,7 @@
 #   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/22 15:35:14 by jay-k               #+#    #+#            #
-#   Updated: 2026/09/30 13:41:26 by jkrishna           ###   ########.fr      #
+#   Updated: 2026/10/03 12:18:54 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -72,7 +72,8 @@ def choose_from(
     input_ids_so_far: list[int]
 ) -> str:
     """Let the model pick one full string from candidates, token by
-    token, stopping once no candidate can legally continue further."""
+    token, stopping once no candidate can legally continue further.
+    function names are the candidates."""
     generated_so_far = ""
     while True:
         max_token_id = -1
