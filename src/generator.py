@@ -7,7 +7,7 @@
 #   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/28 09:33:17 by jkrishna            #+#    #+#            #
-#   Updated: 2026/09/30 14:07:40 by jkrishna           ###   ########.fr      #
+#   Updated: 2026/10/05 12:34:15 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -19,12 +19,17 @@ from llm_sdk import Small_LLM_Model
 
 def build_context(prompt: str, functions: list[FunctionDefinition]) -> str:
     """Build the text, the model reads before it starts generating."""
+    # strip trailing unwanted backslashes,
+    #  so model dont think its a escape-sequence
+    safe_prompt = prompt
+    while safe_prompt.endswith("\\"):
+        safe_prompt = safe_prompt[:-1]
     lines = ["Available functions:"]
     for f in functions:
         params = ", ".join(f.parameters.keys())
         lines.append(f"- {f.name}({params}): {f.description}")
     lines.append("")
-    lines.append(f"Request: {prompt}")
+    lines.append(f"Request: {safe_prompt}")
     lines.append("Function call as JSON:")
     return "\n".join(lines) + "\n"
 
