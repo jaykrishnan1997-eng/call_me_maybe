@@ -7,7 +7,7 @@
 #   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/28 09:33:17 by jkrishna            #+#    #+#            #
-#   Updated: 2026/10/05 13:25:56 by jkrishna           ###   ########.fr      #
+#   Updated: 2026/10/05 13:31:57 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -18,7 +18,8 @@ from llm_sdk import Small_LLM_Model
 
 NONE_FUNCTION = FunctionDefinition(
     name="fn_none",
-    description="Use this when the request does not match any available function.",
+    description="Use this when the request does not"
+    " match any available function.",
     parameters={},
     returns=Parameter(type="string"),
 )
