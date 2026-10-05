@@ -7,14 +7,21 @@
 #   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/28 09:33:17 by jkrishna            #+#    #+#            #
-#   Updated: 2026/10/05 12:34:15 by jkrishna           ###   ########.fr      #
+#   Updated: 2026/10/05 13:25:56 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
 from .json_fsm import force_literal, choose_from
 from .schema_constraints import generate_number, generate_string
-from .models import FunctionDefinition
+from .models import Parameter, FunctionDefinition
 from llm_sdk import Small_LLM_Model
+
+NONE_FUNCTION = FunctionDefinition(
+    name="fn_none",
+    description="Use this when the request does not match any available function.",
+    parameters={},
+    returns=Parameter(type="string"),
+)
 
 
 def build_context(prompt: str, functions: list[FunctionDefinition]) -> str:
@@ -28,6 +35,12 @@ def build_context(prompt: str, functions: list[FunctionDefinition]) -> str:
     for f in functions:
         params = ", ".join(f.parameters.keys())
         lines.append(f"- {f.name}({params}): {f.description}")
+    lines.append(f"- {NONE_FUNCTION.name}(): {NONE_FUNCTION.description}")
+    lines.append("")
+    lines.append("Example:")
+    lines.append("Request: asdfghj 1234 !!! nonsense gibberish")
+    lines.append("Function call as JSON:")
+    lines.append('{"name":"fn_none","parameters":{}}')
     lines.append("")
     lines.append(f"Request: {safe_prompt}")
     lines.append("Function call as JSON:")
@@ -41,20 +54,25 @@ def process_prompt(
 ) -> dict[str, object]:
     """Run one prompt through the model and
     return its function call as a dict"""
+    if not prompt.strip():
+        return {"prompt": prompt, "name": "fn_none", "parameters": {}}
     parameters: dict[str, str | float] = {}
     input_ids_so_far = model.encode(
         build_context(prompt, functions))[0].tolist()
 
     force_literal('{"name":"', model, id_to_str, input_ids_so_far)
+    choices = functions + [NONE_FUNCTION]
     chosen_name = choose_from(
-        [f.name for f in functions], model, id_to_str, input_ids_so_far)
+        [f.name for f in choices], model, id_to_str, input_ids_so_far)
 
-    for f in functions:
+    for f in choices:
         if f.name == chosen_name:
             function = f
             break
     force_literal('","parameters":{', model, id_to_str, input_ids_so_far)
     total = len(function.parameters)
+    if total == 0:
+        force_literal("}}", model, id_to_str, input_ids_so_far)
     for index, (param_name, param) in enumerate(function.parameters.items()):
         if index == total - 1:
             is_last = True
