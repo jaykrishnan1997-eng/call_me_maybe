@@ -4,10 +4,10 @@
 #                                                          :::      ::::::::  #
 #   generator.py                                         :+:      :+:    :+:  #
 #                                                      +:+ +:+         +:+    #
-#   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
+#   By: jay-k <jay-k@student.42.fr>                  +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/28 09:33:17 by jkrishna            #+#    #+#            #
-#   Updated: 2026/10/05 13:31:57 by jkrishna           ###   ########.fr      #
+#   Updated: 2026/10/05 20:27:04 by jay-k              ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -104,6 +104,14 @@ def process_prompt(
             parameters[param_name] = generate_string(
                 model, id_to_str, input_ids_so_far)
             after = '"}}' if is_last else '",'
+
+        elif param.type == "boolean":
+            force_literal(
+                f'"{param_name}":', model, id_to_str, input_ids_so_far)
+            bool_str = choose_from(
+                ["true", "false"], model, id_to_str, input_ids_so_far)
+            parameters[param_name] = bool_str == "true"
+            after = "}}" if is_last else ","
 
         else:
             raise ValueError(f"Unsupported parameter type: {param.type}")

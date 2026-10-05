@@ -19,7 +19,7 @@ export UV_PROJECT_ENVIRONMENT := $(VENV)
 
 FUNCTIONS_DEFINITIONS ?= data/input/functions_definition.json
 INPUT ?= data/input/function_calling_tests.json
-OUTPUT ?= data/output/function_calling_result.json
+OUTPUT ?= data/output/function_calling_results.json
 
 .PHONY: install run debug clean fclean lint lint-strict
 

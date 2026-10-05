@@ -21,7 +21,7 @@ token is masked out before it can be chosen — this is **constrained decoding**
 The output is never `5`; it is:
 
 ```json
-{"prompt": "What is the sum of 2 and 3?", "fn_name": "fn_add_numbers", "args": {"a": 2.0, "b": 3.0}}
+{"prompt": "What is the sum of 2 and 3?", "name": "fn_add_numbers", "parameters": {"a": 2.0, "b": 3.0}}
 ```
 
 Computing the actual answer is deliberately out of scope — this project decides *what to
@@ -137,9 +137,14 @@ reliable across all provided test prompts.
   generated value is converted (`float(...)` for numbers) and stored directly into the
   result dictionary as it is produced, rather than assembling one long string and parsing
   it back into JSON afterward.
-- **Output keys follow the official evaluation scale** (`prompt`, `fn_name`, `args`) rather
-  than the subject document's own worked example (`name`, `parameters`), since the scale is
-  the instrument actually used for grading.
+- **Output keys follow the subject document and the moulinette's own grading script**
+  (`prompt`, `name`, `parameters`). The evaluation scale's manual checklist independently 
+  lists `fn_name`/`args` instead — this is a real discrepancy between the subject and the
+  scale, documented here rather than left for the evaluator to discover. The subject's
+  worked example (V.4.1) and the moulinette's `grade_student_answers` (which reads
+  `student_answer.get("name")` / `student_answer.get("parameters", {})`) both use
+  `name`/`parameters`, and the moulinette is the actual automated scoring mechanism, so
+  this implementation follows that rather than the scale's checklist wording.
 - **`llm_sdk` is treated as read-only, external code.** It is wired in as its own `uv`
   workspace member rather than modified or flattened into this project's own source, and
   it is excluded from this project's own lint/type checks, since it is provided rather
@@ -185,9 +190,10 @@ crashes. The full provided test set runs well within the required 5-minute budge
   given a list of the available functions and their descriptions as context before the
   question — without that, it had no basis on which to choose and settled on one answer
   for everything.
-- **The subject's own worked example and the official evaluation scale disagree** on the
+- **The subject's worked example and the evaluation scale's checklist disagree** on the
   output field names (`name`/`parameters` vs. `fn_name`/`args`); this was resolved in favor
-  of the scale, documented above under Design Decisions.
+  of the subject and the moulinette's grading script, documented above under Design
+  Decisions.
 
 ## Testing Strategy
 
@@ -213,8 +219,8 @@ cat data/output/function_calling_results.json
 
 ```json
 [
-  {"prompt": "What is the sum of 2 and 3?", "fn_name": "fn_add_numbers", "args": {"a": 2.0, "b": 3.0}},
-  {"prompt": "Greet shrek", "fn_name": "fn_greet", "args": {"name": "shrek"}}
+{"prompt": "What is the sum of 2 and 3?", "name": "fn_add_numbers", "parameters": {"a": 2.0, "b": 3.0}},
+{"prompt": "Greet shrek", "name": "fn_greet", "parameters": {"name": "shrek"}}
 ]
 ```
 
