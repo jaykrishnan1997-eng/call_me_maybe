@@ -2,7 +2,7 @@
 
 # call_me_maybe
 
-An LLM function-calling tool powered by constrained decoding.
+An LLM function-calling tool powered by constrained decoding. Constrained decoding via dynamic, per-step token masking.
 
 ## Description
 
@@ -108,6 +108,7 @@ the program forces outright and text the model genuinely chooses:
        quote itself is never a "legal" token under this rule, the tokens that would close the
        string are tracked separately and allowed to compete against the best legal
        continuation on every round; generation stops the moment a closing token outscores it.
+     - *boolean*: only true and false are considered legal.
    - **Force** the closing punctuation: `,` if more parameters follow, or the closing braces
      `}}` if this was the last one.
 5. **Force** the final `}`.
@@ -154,7 +155,7 @@ reliable across all provided test prompts.
   closing-token competition (described above) is in place; it exists purely for safety,
   not as the primary stopping mechanism.
 - **Pydantic validates the function-definition schema on load**, including restricting a
-  parameter's `type` to the literal values `"number"`, `"string"`, `"boolean"` — an
+  parameter's `type` to the literal values `"number"`, `"string"`, `"boolean"`, `"integer"` — an
   unexpected type fails loudly and clearly at load time rather than causing a confusing
   failure deep inside generation.
 
