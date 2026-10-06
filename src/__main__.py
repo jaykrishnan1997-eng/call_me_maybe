@@ -7,7 +7,7 @@
 #   By: jkrishna <jkrishna@student.42.fr>            +#+  +:+       +#+       #
 #                                                  +#+#+#+#+#+   +#+          #
 #   Created: 2026/09/21 10:51:39 by jkrishna            #+#    #+#            #
-#   Updated: 2026/09/30 13:50:27 by jkrishna           ###   ########.fr      #
+#   Updated: 2026/10/06 10:16:56 by jkrishna           ###   ########.fr      #
 #                                                                             #
 # ########################################################################### #
 
@@ -40,7 +40,10 @@ def main() -> None:
     prompts = load_prompts(args.input)
 
     for prompt in prompts:
-        generated = process_prompt(prompt, model, id_to_str_map, functions)
+        try:
+            generated = process_prompt(prompt, model, id_to_str_map, functions)
+        except ValueError as e:
+            generated = {"prompt": prompt, "error": str(e)}
         result.append(generated)
         print(f"\n{generated}")
 
