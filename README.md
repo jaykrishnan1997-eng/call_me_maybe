@@ -51,7 +51,7 @@ downloaded model weights; on any other machine it falls back to normal defaults.
 ### Running
 
 ```bash
-uv run python -m src [--functions_definition <path>] [--input <path>] [--output <path>]
+make run python -m src [--functions_definition <path>] [--input <path>] [--output <path>]
 ```
 
 By default the program reads from `data/input/functions_definition.json` and
@@ -59,7 +59,7 @@ By default the program reads from `data/input/functions_definition.json` and
 `data/output/function_calling_results.json`. Example:
 
 ```bash
-uv run python -m src \
+make run python -m src \
     --functions_definition data/input/functions_definition.json \
     --input data/input/function_calling_tests.json \
     --output data/output/function_calling_results.json
